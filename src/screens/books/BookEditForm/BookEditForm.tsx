@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Book } from '../../../domain/book';
 
 
@@ -15,6 +15,11 @@ export function BookEditForm({ book, onBookEdited }: BookEditFormProps): ReactEl
 
   const [isbn, setIsbn] = useState(book.isbn);
   const [title, setTitle] = useState(book.title);
+
+  useEffect(() => {
+    setIsbn(book.isbn);
+    setTitle(book.title);
+  }, [book.isbn, book.title]);
 
   function onSubmit(): void {
     const editedBook: Book = {
