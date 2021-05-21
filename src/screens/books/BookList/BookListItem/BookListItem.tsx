@@ -1,5 +1,4 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { ReactElement } from 'react';
 import { Book } from '../../../../domain/book';
 
 export interface OnBookListItemClicked {
