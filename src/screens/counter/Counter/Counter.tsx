@@ -1,4 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { changeCounterValue, State } from '../../../redux';
 
 export interface OnCounterValueChanged {
   (currentValue: number): void;
@@ -9,7 +12,7 @@ export interface NextValue {
 }
 
 export interface CounterProps {
-  initialValue: number;
+  value: number;
   onCounterValueChanged: OnCounterValueChanged;
   increment?: NextValue;
   decrement?: NextValue;
@@ -18,19 +21,16 @@ export interface CounterProps {
 export const incrementByOne: NextValue = (currentValue) => currentValue + 1;
 export const decrementByOne: NextValue = (currentValue) => currentValue - 1;
 
-export const Counter: React.FC<CounterProps> = ({ initialValue, onCounterValueChanged, increment = incrementByOne, decrement = decrementByOne }): ReactElement => {
+const Counter: React.FC<CounterProps> = ({ value, onCounterValueChanged, increment = incrementByOne, decrement = decrementByOne }): ReactElement => {
 
-  const [value, setValue] = useState(initialValue);
 
   function _increment(): void {
     const _value = increment(value);
-    setValue(_value)
     onCounterValueChanged(_value);
   }
 
   function _decrement(): void {
     const _value = decrement(value);
-    setValue(_value)
     onCounterValueChanged(_value);
   }
 
@@ -42,3 +42,17 @@ export const Counter: React.FC<CounterProps> = ({ initialValue, onCounterValueCh
     </>
   );
 }
+
+function mapStateToProps(state: State) {
+  return {
+    value: state.counter
+  };
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    onCounterValueChanged: (currentValue: number) => dispatch(changeCounterValue(currentValue))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);

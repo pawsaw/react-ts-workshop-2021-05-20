@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { useNavigation } from '../../domain/navigation';
-import { BookList } from './BookList/BookList';
+import BookList from './BookList/BookList';
 
 export interface BooksScreenProps {
   title?: string;
