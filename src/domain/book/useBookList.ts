@@ -8,7 +8,7 @@ export function useBookList(): Book[] | null {
 
     let mounted = true;
 
-    const fetchBooks = async () => {
+    const fetchBooks = async (): Promise<void> => {
       const response = await fetch('http://localhost:4730/books');
       const _books: Book[] = await response.json();
       if (mounted) {

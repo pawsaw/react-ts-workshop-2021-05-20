@@ -1,17 +1,18 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import { Book } from '../../../domain/book';
 
 
-export interface OnBookEdited {
-  (editedBook: Book): void;
+export interface BookSelected {
+  (book: Book): void;
 }
 
 export interface BookEditFormProps {
   book: Book;
-  onBookEdited: OnBookEdited;
+  onBookEdited: BookSelected;
+  onCancelClicked: BookSelected;
 }
 
-export function BookEditForm({ book, onBookEdited }: BookEditFormProps): ReactElement {
+export function BookEditForm({ book, onBookEdited, onCancelClicked }: BookEditFormProps): ReactElement {
 
   const [isbn, setIsbn] = useState(book.isbn);
   const [title, setTitle] = useState(book.title);
@@ -21,13 +22,15 @@ export function BookEditForm({ book, onBookEdited }: BookEditFormProps): ReactEl
     setTitle(book.title);
   }, [book.isbn, book.title]);
 
-  function onSubmit(): void {
+  function onSubmit(e: FormEvent): void {
     const editedBook: Book = {
       isbn,
-      title
+      title,
+      abstract: ''
     };
 
     onBookEdited(editedBook);
+    e.preventDefault();
   }
 
   function onTitleChanged(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -49,5 +52,6 @@ export function BookEditForm({ book, onBookEdited }: BookEditFormProps): ReactEl
     <input type="text" required id="isbn" name="isbn" title="isbn" value={isbn} onChange={onIsbnChanged} />
 
     <button>Absenden</button>
+    <button type="button" onClick={() => onCancelClicked(book)}>Abbrechen</button>
   </form>
 }

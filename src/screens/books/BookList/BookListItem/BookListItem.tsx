@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { Book } from '../../../../domain/book';
 
 export interface OnBookListItemClicked {
@@ -15,7 +16,9 @@ export function BookListItem({ book, onBookListItemClicked }: BookListItemProps)
     <div style={{
       color: 'blue'
     }}>
-      <div onClick={() => onBookListItemClicked(book)}>{book.title}</div>
+      <div style={{
+        cursor: 'pointer'
+      }} onClick={() => onBookListItemClicked(book)}>{book.title}</div>
     </div>
   );
 }

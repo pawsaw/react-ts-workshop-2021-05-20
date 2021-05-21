@@ -1,6 +1,5 @@
-import React, { ReactElement, useState } from 'react';
-import { Book } from '../../domain/book/book';
-import { BookEditForm } from './BookEditForm/BookEditForm';
+import { ReactElement } from 'react';
+import { useNavigation } from '../../domain/navigation';
 import { BookList } from './BookList/BookList';
 
 export interface BooksScreenProps {
@@ -9,16 +8,10 @@ export interface BooksScreenProps {
 
 export function BooksScreen({ title = 'Booklist' }: BooksScreenProps): ReactElement {
   
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const { showBook } = useNavigation();
   
   return <div>
     <h2>{title}</h2>
-    <BookList onBookListItemClicked={setSelectedBook} />
-    {selectedBook ? (
-      <BookEditForm book={selectedBook} onBookEdited={(book) => console.log(book)} />
-    ) : (<div>
-      Select a Book
-    </div>)
-    }
+    <BookList onBookListItemClicked={({ isbn }) => showBook(isbn)} />  
   </div>
 }
